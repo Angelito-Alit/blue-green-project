@@ -1,0 +1,34 @@
+name: Blue-Green Deployment
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Blue Image
+      run: |
+        cd blue
+        docker build -t blue-app:${{ github.sha }} .
+    
+    - name: Build Green Image
+      run: |
+        cd green
+        docker build -t green-app:${{ github.sha }} .
+    
+    - name: Build Nginx Image
+      run: |
+        cd nginx
+        docker build -t nginx-proxy:${{ github.sha }} .
+    
+    - name: Deploy Info
+      run: |
+        echo "Imagenes construidas exitosamente"
+        echo "Blue: blue-app:${{ github.sha }}"
+        echo "Green: green-app:${{ github.sha }}"
