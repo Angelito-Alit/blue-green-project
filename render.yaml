@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: blue-green-blue
+    env: docker
+    dockerfilePath: ./blue/Dockerfile
+    
+  - type: web
+    name: blue-green-green
+    env: docker
+    dockerfilePath: ./green/Dockerfile
